@@ -1,0 +1,6 @@
+## Request Policies
+GET http://172.17.1.222/opa/v1/policies
+Content-Type: application/json
+
+
+## Create Policy
