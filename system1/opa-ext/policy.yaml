@@ -1,0 +1,15 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: http-app1-opa
+spec:
+  selector:
+    matchLabels:
+      app: http-app1
+  action: CUSTOM
+  provider:
+    name: "opa.system1"
+  rules:
+    - to:
+        - operation:
+            notPaths: ["/ip"]

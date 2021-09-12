@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-app2-service
+  # annotations:
+  #   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  selector:
+    app: http-app2
+  type: ClusterIP
+  ports:
+    - name: http-app2-3000-port
+      port: 3000
+      targetPort: 3000

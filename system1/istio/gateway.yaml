@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: system-gateway
-  namespace: auth-system
 spec:
   selector:
     istio: ingressgateway # use Istio default gateway implementation
@@ -12,4 +11,4 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - "app.rwx.systems"
+        - "system1.app.rwx.systems"
