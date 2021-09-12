@@ -27,3 +27,13 @@ spec:
             port:
               number: 8181
             host: opa
+    - match:
+        - uri:
+            prefix: /node/
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            port:
+              number: 3000
+            host: node-test.app1.svc.cluster.local
