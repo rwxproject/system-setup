@@ -24,11 +24,11 @@ node03 172.17.1.223
 
 First master node
 
-curl -sfL https://get.k3s.io | K3S_TOKEN=RWXSYSTEMSSECRET sh -s - server --cluster-init --disable=traefik
+curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --cluster-init --disable=traefik
 
 Other master nodes
 
-curl -sfL https://get.k3s.io | K3S_TOKEN=RWXSYSTEMSSECRET sh -s - server --server https://172.17.1.221:6443 --disable=traefik
+curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://172.17.1.221:6443 --disable=traefik
 
 ## Cluster Setup
 
