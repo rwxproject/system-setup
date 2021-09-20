@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: direct
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_ROUTE
+      match:
+        context: GATEWAY
+        routeConfiguration:
+          vhost:
+            name: system1.app.rwx.systems
+      patch:
+        operation: INSERT_FIRST
+        value:
+          name: direct
+          match:
+            path: /
+          directResponse:
+            body:
+              inlineString: "hello world"
+            status: 200

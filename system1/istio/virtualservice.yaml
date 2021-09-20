@@ -8,19 +8,21 @@ spec:
   gateways:
     - system-gateway
   http:
-    - match:
-        - uri:
-            prefix: /opa/
-      rewrite:
-        uri: "/"
-      route:
-        - destination:
-            port:
-              number: 8181
-            host: opa
+    # - match:
+    #     - uri:
+    #         prefix: /opa/
+    #   rewrite:
+    #     uri: "/"
+    #   route:
+    #     - destination:
+    #         port:
+    #           number: 8181
+    #         host: opa
     - match:
         - uri:
             prefix: /app/
+        - uri:
+            exact: /app
       rewrite:
         uri: "/"
       route:

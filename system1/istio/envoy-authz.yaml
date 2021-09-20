@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: system1-ext-authz
+  namespace: system1
+spec:
+  workloadSelector:
+    labels:
+      app: http-app1
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+      patch:
+        operation: REPLACE
+        # operation: ADD
+        # filterClass: AUTHZ # This filter will run *after* the Istio authz filter.
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            grpc_service:
+              envoy_grpc:
+                cluster_name: opa.system1.svc.cluster.local

@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: http-app1-header-filter
+  namespace: system1
+spec:
+  workloadLabels:
+    app: http-app1
+  filters:
+    - listenerMatch:
+        portNumber: 3000
+        listenerType: SIDECAR_INBOUND
+        listenerProtocol: HTTP
+      filterName: envoy.lua
+      filterType: HTTP
+      filterConfig:
+        inlineCode: |
+          function envoy_on_request(request_handle)
+            headers = request_handle:headers()
+            request_handle:headers():add("user-id", headers:get("customer-id"))
+            request_handle:headers():add("is-authenticated", headers:get("logged-in"))
+          end

@@ -84,3 +84,18 @@ kubectl apply -f opa/
 ```shell
 kubectl apply -f istio/
 ```
+
+kubectl run curl --image=radial/busyboxplus:curl -i --tty --rm
+
+istioctl proxy-config route istio-ingressgateway-5abc45c5cb-44l47.istio-system -o json
+
+---
+
+kubectl apply -f system1/namespace.yaml  
+kubectl create secret generic opa-policy --from-file system1/opa/policy.rego
+kubectl apply -f system1/opa/opa.yaml
+
+kubectl apply -f system1/http-app1
+kubectl apply -f system1/http-app2
+kubectl apply -f system1/istio/gateway.yaml
+kubectl apply -f system1/istio/virtualservice.yaml
