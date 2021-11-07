@@ -38,21 +38,26 @@ curl -sfL https://get.k3s.io | K3S_TOKEN=SECRET sh -s - server --server https://
 curl -sL https://istio.io/downloadIstioctl | sh -
 export PATH=$PATH:$HOME/.istioctl/bin
 istioctl install --set profile=demo
+
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=ALLOW_ANY
+kubectl get istiooperator installed-state -n istio-system -o jsonpath='{.spec.meshConfig.outboundTrafficPolicy.mode}'
+
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 ```
 
 ### Install istio addons
 
 ```shell
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/jaeger.yaml
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/prometheus.yaml
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/grafana.yaml
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/kiali.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.12/samples/addons/jaeger.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.12/samples/addons/prometheus.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.12/samples/addons/grafana.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.12/samples/addons/kiali.yaml
 ```
 
 ### Install cert-manager
 
 ```shell
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.0/cert-manager.yaml
 ```
 
 ### Enable Istio injection
@@ -99,3 +104,24 @@ kubectl apply -f system1/http-app1
 kubectl apply -f system1/http-app2
 kubectl apply -f system1/istio/gateway.yaml
 kubectl apply -f system1/istio/virtualservice.yaml
+
+istioctl proxy-status
+
+proxy-config
+
+---
+
+Install java
+
+brew tap homebrew/cask-versions
+brew update
+brew tap homebrew/cask
+brew tap adoptopenjdk/openjdk
+brew install --cask adoptopenjdk11
+
+curl --location --request POST 'http://app.rwx.systems//auth/realms/realm/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=webapp' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'username=user1' \
+--data-urlencode 'password=password'

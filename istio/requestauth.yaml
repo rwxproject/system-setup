@@ -1,0 +1,16 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: ingress-jwt
+  namespace: system1
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+      # app: http-app1
+  jwtRules:
+    - issuer: "http://app.rwx.systems/auth/realms/realm"
+      jwksUri: "http://keycloak.auth-system.svc.cluster.local:8080/auth/realms/realm/protocol/openid-connect/certs"
+      # fromHeaders:
+      #   - name: x-jwt-assertion
+      #     prefix: "Bearer "

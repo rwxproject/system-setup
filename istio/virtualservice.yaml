@@ -5,35 +5,15 @@ metadata:
   namespace: auth-system
 spec:
   hosts:
-    - "*"
+    - "app.rwx.systems"
   gateways:
     - system-gateway
   http:
     - match:
         - uri:
-            prefix: /auth/
+            prefix: /auth
       route:
         - destination:
             port:
               number: 8080
             host: keycloak
-    - match:
-        - uri:
-            prefix: /opa/
-      rewrite:
-        uri: "/"
-      route:
-        - destination:
-            port:
-              number: 8181
-            host: opa
-    - match:
-        - uri:
-            prefix: /node/
-      rewrite:
-        uri: "/"
-      route:
-        - destination:
-            port:
-              number: 3000
-            host: node-test.app1.svc.cluster.local

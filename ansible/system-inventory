@@ -1,0 +1,10 @@
+[x64-k3s]
+knode01
+knode02
+knode03
+
+[rpi-k3s]
+rpi-n01 
+rpi-n02
+rpi-n03
+rpi-n04

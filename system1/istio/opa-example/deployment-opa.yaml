@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opa
+  labels:
+    app: opa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opa
+  template:
+    metadata:
+      labels:
+        app: opa
+      name: opa
+    spec:
+      containers:
+        - name: opa
+          image: openpolicyagent/opa:0.33.0
+          ports:
+            - name: http
+              containerPort: 8181
+          args:
+            - "run"
+            - "--ignore=.*" # exclude hidden dirs created by Kubernetes
+            - "--log-level=debug"
+            - "--log-format=json-pretty"
+            - "--server"
+            - "--set=decision_logs.console=true"
+            - "--set=status.console=true"
+            - "/policies"
+          volumeMounts:
+            - readOnly: true
+              mountPath: /policies
+              name: example-policy
+      volumes:
+        - name: example-policy
+          configMap:
+            name: example-policy

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-public
+  namespace: istio-system
+  annotations:
+    auth.istio.io/8089: NONE
+  #   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  selector:
+    app: http-public
+  type: ClusterIP
+  ports:
+    - name: http-80-port
+      port: 80
+      targetPort: 3000

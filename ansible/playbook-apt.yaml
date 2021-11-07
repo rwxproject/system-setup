@@ -1,0 +1,22 @@
+- hosts: x64-k3s
+  gather_facts: yes
+  become: yes
+  # become_user: rwx
+  tasks:
+    # - name: Install iproute2
+    #   apt:
+    #     name: iproute2
+    #     state: present
+    #   register: iproutes2_output
+    - name: Install curl
+      apt:
+        name: curl
+        state: latest
+    # - name: debug1
+    #   debug:
+    #     msg: "Network interfaces assigned to {{ inventory_hostname }}: {{ ansible_interfaces }}"
+    #   when: ansible_interfaces is defined
+    # - name: debug2
+    #   debug:
+    #     msg: "Default IPv4 address assign to {{ inventory_hostname }}: {{ ansible_default_ipv4.address }}"
+    #   when: ansible_default_ipv4 is defined

@@ -1,0 +1,58 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: test-ext-authz
+spec:
+  # workloadSelector:
+  #   labels:
+  #     istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+      patch:
+        operation: INSERT_BEFORE
+        # operation: INSERT_AFTER
+        filterClass: AUTHZ # This filter will run *after* the Istio authz filter.
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            with_request_body:
+              max_request_bytes: 8192
+              allow_partial_message: true
+            http_service:
+              server_uri:
+                uri: http://opa:8181
+                path_prefix: /v1/data/envoy/authz/allow
+                cluster: opa
+                timeout: 0.25s
+              # authorization_request:
+              #   allowed_headers:
+              #     patterns:
+              #       - exact: authorization
+              #       - exact: content-type
+              #       - exact: upgrade
+              #       - exact: connection
+              #       - exact: sec-websocket-protocol
+            failure_mode_allow: false
+    - applyTo: CLUSTER
+      match:
+        context: GATEWAY
+      patch:
+        operation: ADD
+        value:
+          name: opa
+          connect_timeout: 0.25s
+          type: LOGICAL_DNS
+          dns_lookup_family: V4_ONLY
+          lb_policy: ROUND_ROBIN
+          load_assignment:
+            cluster_name: opa
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: opa
+                          port_value: 8181

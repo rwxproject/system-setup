@@ -8,21 +8,22 @@ spec:
   gateways:
     - system-gateway
   http:
-    # - match:
-    #     - uri:
-    #         prefix: /opa/
-    #   rewrite:
-    #     uri: "/"
-    #   route:
-    #     - destination:
-    #         port:
-    #           number: 8181
-    #         host: opa
+    - match:
+        - uri:
+            prefix: /auth
+      route:
+        - destination:
+            port:
+              number: 8080
+            host: keycloak.auth-system.svc.cluster.local
     - match:
         - uri:
             prefix: /app/
         - uri:
             exact: /app
+          headers:
+            x-jwt-claim.exp:
+              exact: "3537391104"
       rewrite:
         uri: "/"
       route:

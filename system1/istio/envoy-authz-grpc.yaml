@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: grpc-ext-authz
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+      patch:
+        operation: INSERT_BEFORE
+        # operation: INSERT_AFTER
+        filterClass: AUTHZ # This filter will run *after* the Istio authz filter.
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            grpc_service:
+              envoy_grpc:
+                cluster_name: opa-grpc
+            failure_mode_allow: false
+    - applyTo: CLUSTER
+      match:
+        context: GATEWAY
+      patch:
+        operation: ADD
+        value:
+          name: opa-grpc
+          connect_timeout: 0.25s
+          type: LOGICAL_DNS
+          dns_lookup_family: V4_ONLY
+          lb_policy: ROUND_ROBIN
+          load_assignment:
+            cluster_name: opa-grpc
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: opa-grpc
+                          port_value: 9191

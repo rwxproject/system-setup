@@ -1,0 +1,17 @@
+- hosts: rpi-k3s
+  gather_facts: yes
+  tasks:
+    - name: hello world
+      shell: echo "Hello World-ECHO"
+      register: echo_output
+    - name: run Ping
+      ping:
+      register: ping_output
+    - name: run setup
+      setup:
+    - name: debug1
+      debug:
+        msg: "hello world output: {{ echo_output }}"
+    - name: debug2
+      debug:
+        msg: "run Ping output: {{ ping_output }}"

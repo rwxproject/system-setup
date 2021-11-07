@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: http-app
+  namespace: system1
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - http-app-gateway
+  http:
+    - match:
+        - uri:
+            exact: /app
+          headers:
+            x-jwt-claim.sub: # "x-jwt-claim" is a reserved header for matching JWT claims only.
+              exact: "user1"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            port:
+              number: 3000
+            host: http-app1-service
+    - match:
+        - uri:
+            exact: /app
+          headers:
+            x-jwt-claim.sub: # "x-jwt-claim" is a reserved header for matching JWT claims only.
+              exact: "user2"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            port:
+              number: 3000
+            host: http-app2-service

@@ -1,0 +1,14 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: ingress-http-jwt
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+    # - issuer: "http://app.rwx.systems/auth/realms/realm"
+    #   jwksUri: "http://keycloak.auth-system.svc.cluster.local:8080/auth/realms/realm/protocol/openid-connect/certs"
+    - issuer: "testing@secure.istio.io"
+      jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.12/security/tools/jwt/samples/jwks.json"

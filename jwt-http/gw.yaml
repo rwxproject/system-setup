@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: http-app-gateway
+  namespace: system1
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: http-app
+# spec:
+#   hosts:
+#     - "*"
+#   gateways:
+#     - http-app-gateway
+#   http:
+#     - route:
+#         - destination:
+#             host: http-app1-service
+#             port:
+#               number: 3000
