@@ -66,3 +66,13 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkRIRmJwb0lVcXJZOHQyenBBMnFYZk
 
 GET http://app.rwx.systems/app
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkRIRmJwb0lVcXJZOHQyenBBMnFYZkNtcjVWTzVaRXI0UnpIVV8tZW52dlEiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE2MzYzNDUwNTMsImlhdCI6MTYzNjMxNTA1MywiaXNzIjoidGVzdGluZ0BzZWN1cmUuaXN0aW8uaW8iLCJzdWIiOiJ1c2VyMiJ9.CsTBBJ7HrUFvR2aZX9xhfrj9Q9TEfVA9CYIZwEV7YHTtsQ0fF7nujWexIEM15UV-pVBeo_s88wK9DhEtVL6cx0216hqmWyBEctwDYmVWixHWT5PexlmfykJrwzH5P_Sq9htkCKajhU-o3vMBPpmpXzp1Au1XVGzv5UT87gDoXlmwdOnFudXB1h3FBdyd9Ehw7hlpUP4VC2_EOZ3SJqro6w-r-J9nLG2Ib0rvq5fT2kJBtbeJ38u-J1DTKzH8f0oB4ESbIBGlSg1RCHgmZMq5mFz3tPfuwV6fg_rOW2v6SLTgvWtYzrynY3L4Mgpc4k2XMUBDzEIGCqaqirCBlPAFnQ
+
+
+
+### Get system#1
+GET http://system1.app.rwx.systems
+x-user: user1
+
+### Get system#1
+GET http://system1.app.rwx.systems
+x-user: user2
