@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: system1-common
+spec:
+  hosts:
+    - "system1.app.rwx.systems"
+  gateways:
+    - system-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /common/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            port:
+              number: 3000
+            host: http-common-service
+    - match:
+        - uri:
+            exact: /
+        - uri:
+            regex: "^.*"
+      route:
+        - destination:
+            port:
+              number: 3000
+            host: web-app-service

@@ -70,9 +70,13 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkRIRmJwb0lVcXJZOHQyenBBMnFYZk
 
 
 ### Get system#1
-GET http://system1.app.rwx.systems
-x-user: user1
+GET http://system1.app.rwx.systems/user/api
+x-user-id: user1
 
 ### Get system#1
-GET http://system1.app.rwx.systems
-x-user: user2
+GET http://system1.app.rwx.systems/user/api
+x-user-id: user2
+
+
+### Get system#3
+GET http://system1.app.rwx.systems/common/api

@@ -10,8 +10,12 @@ spec:
   http:
     - match:
         - headers:
-            x-user:
+            x-user-id:
               exact: user2
+          uri:
+            prefix: /user/
+      rewrite:
+        uri: /
       route:
         - destination:
             port:
